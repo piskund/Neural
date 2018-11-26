@@ -41,20 +41,22 @@ namespace NeuralNetwork
 			double temp_cost = 0; //текущее значение ошибки по эпохе
 			do
 			{
-				for (var i = 0; i < input_layer.TrainSet.Length; ++i)
+                int i = 0;
+                foreach (var kvp in input_layer.TrainSet)
 				{
-					//прямой проход
-					hidden_layer.Data = input_layer.TrainSet[i].Item1;
+                    //прямой проход
+                    hidden_layer.Data = kvp.Key;
 					hidden_layer.Recognize(null, output_layer);
 					output_layer.Recognize(this, null);
 					//вычисление ошибки по итерации
-					var errors = new double[input_layer.TrainSet[i].Item2.Length];
+					var errors = new double[kvp.Value.Length];
 					for (var x = 0; x < errors.Length; ++x)
-						errors[x] = input_layer.TrainSet[i].Item2[x] - fact[x];
+						errors[x] = kvp.Value[x] - fact[x];
 					temp_mses[i] = GetMSE(errors);
 					//обратный проход и коррекция весов
 					double[] temp_gsums = output_layer.BackwardPass(errors);
 					hidden_layer.BackwardPass(temp_gsums);
+                    i++;
 				}
 
 				temp_cost = GetCost(temp_mses); //вычисление ошибки по эпохе
@@ -70,9 +72,9 @@ namespace NeuralNetwork
 		//тестирование сети
 		public void Test()
 		{
-			for (var i = 0; i < input_layer.TrainSet.Length; ++i)
-			{
-				hidden_layer.Data = input_layer.TrainSet[i].Item1;
+                foreach (var kvp in input_layer.TrainSet)
+                {
+                    hidden_layer.Data = kvp.Key;
 				hidden_layer.Recognize(null, output_layer);
 				output_layer.Recognize(this, null);
 				for (var j = 0; j < fact.Length; ++j)
