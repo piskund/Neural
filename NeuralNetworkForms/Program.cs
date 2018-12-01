@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// -------------------------------------------------------------------------------------------------------------
+//  Program.cs created by DEP on 2018/12/01
+// -------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Windows.Forms;
 
 namespace NeuralNetworkForms
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
